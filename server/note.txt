@@ -1,0 +1,9 @@
+## Sequelize
+
+1. npx sequelize model:create --name User --attributes email:string,password:string
+
+2. npx sequelize model:create --name Movie --attributes title:string,synopsis:text,duration:integer,releaseDate:date,coverUrl:text,rating:float,isNowShowing:boolean
+
+3. npx sequelize seed:create --name users
+
+4. npx sequelize db:drop && npx sequelize db:create && npx sequelize db:migrate && npx sequelize db:seed:all
