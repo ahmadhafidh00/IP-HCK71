@@ -8,12 +8,12 @@ const authentication = async (req, res, next) => {
     const bearerToken = req.headers.authorization;
 
     if (!bearerToken) {
-      throw { name: "Unauthorized", message: "Invalid Token" };
+      throw { name: "Unauthorized", message: "Invalid token" };
     }
 
     const [type, token] = bearerToken.split(" ");
     if (type !== "Bearer" || !token) {
-      throw { name: "Unauthorized", message: "Invalid Token" };
+      throw { name: "Unauthorized", message: "Invalid token" };
     }
 
     const payload = verifyToken(token);
@@ -21,7 +21,7 @@ const authentication = async (req, res, next) => {
 
     const user = await User.findByPk(userId);
     if (!user) {
-      throw { name: "Unauthorized", message: "Invalid Token" };
+      throw { name: "Unauthorized", message: "Invalid token" };
     }
 
     req.user = { id: user.id };

@@ -15,12 +15,12 @@ module.exports = class UserController {
 
       const user = await User.findOne({ where: { email } });
       if (!user) {
-        throw { name: "InvalidLogin", message: "Invalid email/password" };
+        throw { name: "Unauthorized", message: "Invalid email/password" };
       }
 
       const isValidPassword = comparePassword(password, user.password);
       if (!isValidPassword) {
-        throw { name: "InvalidLogin", message: "Invalid email/password" };
+        throw { name: "Unauthorized", message: "Invalid email/password" };
       }
 
       res.status(200).json({ access_token: signToken({ id: user.id }) });
