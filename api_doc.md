@@ -7,6 +7,8 @@
 ```txt
 - email : string, required, unique
 - password : string, required
+- name : string,
+- subscription : string
 ```
 
 ### Movie
@@ -21,6 +23,16 @@
 - isNowShowing : boolean
 ```
 
+### Order
+
+```txt
+- orderId : string, required
+- userID : integer
+- amount : string
+- status : string
+- paidDate : date
+```
+
 ## Endpoints
 
 List of available endpoints:
@@ -30,7 +42,7 @@ List of available endpoints:
 Routes below need authentication:
 
 - `GET /`
-- `POST /mymovies/:id`
+- `POST /mymovies/:movieId`
 - `GET /mymovies`
 - `PUT /mymovies/:id`
 - `DELETE /mymovies/:id`
@@ -121,7 +133,7 @@ _Response (200 - OK)_
 
 &nbsp;
 
-## 3. POST /mymovies/:id
+## 3. POST /mymovies/:movieId
 
 Description:
 
@@ -141,7 +153,7 @@ Request:
 
 ```json
 {
-  "id": "integer"
+  "movieId": "integer"
 }
 ```
 
@@ -150,9 +162,10 @@ _Response (201 - Created)_
 ```json
 {
   "id": 1,
-  "CourseId": 2,
-  "UserId": 1,
-  "status": "Uncompleted"
+  "UserId": 2,
+  "MovieId": "tmdb-150540",
+  "updatedAt": "2024-06-21T03:13:22.535Z",
+  "createdAt": "2024-06-21T03:13:22.535Z"
 }
 ```
 
@@ -160,17 +173,17 @@ _Response (404 - Not Found)_
 
 ```json
 {
-  "message": "Course not found"
+  "message": "Movie not found"
 }
 ```
 
 &nbsp;
 
-## 5. GET /mycourses
+## 4. GET /mymovies
 
 Description:
 
-- Get all my course of logged user
+- Get all my movies of logged user
 
 Request:
 
@@ -187,42 +200,103 @@ _Response (200 - OK)_
 ```json
 [
   {
-    "id": 2,
-    "UserId": 1,
-    "CourseId": 2,
-    "status": "Uncompleted",
-    "Course": {
-      "title": "REST API",
-      "instructor": "Edison",
-      "day": "Wednesday,Friday",
-      "imageUrl": "https://billwerk.io/wp-content/uploads/sites/2/2019/05/icons-restapi-350x350.png"
+    "id": 3,
+    "UserId": 2,
+    "MovieId": "tmdb-653346",
+    "Movie": {
+      "id": "tmdb-653346",
+      "title": "Kingdom of the Planet of the Apes",
+      "synopsis": "Several generations in the future following Caesar's reign, apes are now the dominant species and live harmoniously while humans have been reduced to living in the shadows. As a new tyrannical ape leader builds his empire, one young ape undertakes a harrowing journey that will cause him to question all that he has known about the past and to make choices that will define a future for apes and humans alike.",
+      "releaseDate": "2024-05-08T00:00:00.000Z",
+      "coverUrl": "https://image.tmdb.org/t/p/w500/gKkl37BQuKTanygYQG1pyYgLVgf.jpg",
+      "rating": 6.859,
+      "isNowShowing": false
     }
   },
   {
-    "id": 1,
-    "UserId": 1,
-    "CourseId": 1,
-    "status": "Completed",
-    "Course": {
-      "title": "Intro Vue",
-      "instructor": "Arnold Therigan",
-      "day": "Monday,Thursday,Saturday",
-      "imageUrl": "https://docs.vuejs.id/images/logo.png"
+    "id": 4,
+    "UserId": 2,
+    "MovieId": "tmdb-1001311",
+    "Movie": {
+      "id": "tmdb-1001311",
+      "title": "Under Paris",
+      "synopsis": "In the Summer of 2024, Paris is hosting the World Triathlon Championships on the Seine for the first time. Sophia, a brilliant scientist, learns from Mika, a young environmental activist, that a large shark is swimming deep in the river. To avoid a bloodbath at the heart of the city, they have no choice but to join forces with Adil, the Seine river police commander.",
+      "releaseDate": "2024-06-05T00:00:00.000Z",
+      "coverUrl": "https://image.tmdb.org/t/p/w500/qZPLK5ktRKa3CL4sKRZtj8UlPYc.jpg",
+      "rating": 5.97,
+      "isNowShowing": false
     }
   }
-  ...,
 ]
 ```
 
 &nbsp;
 
-## 6. PATCH /mycourses/:id
+## 5. PUT /mymovies/:id
 
 Description:
 
-- Update my course to completed
+- Updated movie's `isNowShowing`
 
 Request:
+
+- headers:
+
+```json
+{
+  "Authorization": "Bearer <string token>"
+}
+```
+
+- params:
+
+```json
+{
+  "id": "integer (required)"
+}
+```
+
+- body:
+
+```json
+{
+  "isNowShowing": "boolean (required)"
+}
+```
+
+_Response (200 - OK)_
+
+```json
+{
+  "message": "Movie has been updated"
+}
+```
+
+_Response (404 - Not Found)_
+
+```json
+{
+  "message": "Movie not found"
+}
+```
+
+_Response (400 - Bad Request)_
+
+```json
+{
+  "message": "isNowShowing cannot be empty"
+}
+```
+
+&nbsp;
+
+## 6. DELETE /mymovies/:id
+
+Description:
+
+- Delete My Movies
+
+Request
 
 - headers:
 
@@ -240,19 +314,19 @@ Request:
 }
 ```
 
-_Response (200 - OK)_
+Response (200 - OK)
 
 ```json
 {
-  "message": "Course has been completed"
+  "message": "Movie has been deleted"
 }
 ```
 
-_Response (404 - Not Found)_
+Response (404 - Not Found)
 
 ```json
 {
-  "message": "Course not found"
+  "message": "Movie not found"
 }
 ```
 

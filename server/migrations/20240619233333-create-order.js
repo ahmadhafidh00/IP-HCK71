@@ -2,33 +2,35 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Movies", {
+    await queryInterface.createTable("Orders", {
       id: {
         allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
-      title: {
+      orderId: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      synopsis: {
-        type: Sequelize.TEXT,
-      },
-      duration: {
+      userId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: "Users",
+          },
+        },
       },
-      releaseDate: {
-        type: Sequelize.DATE,
+      amount: {
+        type: Sequelize.STRING,
+        defaultValue: 0,
       },
-      coverUrl: {
-        type: Sequelize.TEXT,
+      status: {
+        type: Sequelize.STRING,
+        defaultValue: "pending",
       },
-      rating: {
-        type: Sequelize.FLOAT,
-      },
-      isNowShowing: {
-        type: Sequelize.BOOLEAN,
+      paidDate: {
+        type: Sequelize.DATE, // defaultValue: null
       },
       createdAt: {
         allowNull: false,
@@ -41,6 +43,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Movies");
+    await queryInterface.dropTable("Orders");
   },
 };

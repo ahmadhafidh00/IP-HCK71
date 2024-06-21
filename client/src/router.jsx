@@ -2,6 +2,7 @@ import { createBrowserRouter, Outlet, redirect } from "react-router-dom";
 
 import HomePage from "./pages/HomePage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
+import MyMoviesPage from "./pages/MyMoviesPage.jsx";
 
 import Navbar from "./components/Navbar.jsx";
 
@@ -46,14 +47,14 @@ const router = createBrowserRouter([
           </>
         ),
       },
-      // {
-      //   path: "/mymovies",
-      //   element: (
-      //     <>
-      //       <MyMoviesPage />,
-      //     </>
-      //   ),
-      // },
+      {
+        path: "/mymovies",
+        element: (
+          <>
+            <MyMoviesPage />,
+          </>
+        ),
+      },
     ],
   },
 ]);

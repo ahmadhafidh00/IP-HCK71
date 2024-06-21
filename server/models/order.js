@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Movie extends Model {
+  class Order extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,34 +9,32 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Movie.hasMany(models.MyMovie, { foreignKey: "MovieId" });
+      Order.belongsTo(models.User, { foreignKey: "userId" });
     }
   }
-  Movie.init(
+  Order.init(
     {
-      title: {
+      orderId: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
           notNull: {
-            msg: "Title is required",
+            msg: "orderId is required",
           },
           notEmpty: {
-            msg: "Title is required",
+            msg: "orderId is required",
           },
         },
       },
-      synopsis: DataTypes.TEXT,
-      duration: DataTypes.INTEGER,
-      releaseDate: DataTypes.DATE,
-      coverUrl: DataTypes.TEXT,
-      rating: DataTypes.FLOAT,
-      isNowShowing: DataTypes.BOOLEAN,
+      userId: DataTypes.INTEGER,
+      amount: DataTypes.STRING,
+      status: DataTypes.STRING,
+      paidDate: DataTypes.DATE,
     },
     {
       sequelize,
-      modelName: "Movie",
+      modelName: "Order",
     }
   );
-  return Movie;
+  return Order;
 };

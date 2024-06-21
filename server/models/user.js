@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Order, { foreignKey: "userId" });
+      User.hasMany(models.MyMovie, { foreignKey: "UserId" });
     }
   }
   User.init(
@@ -48,6 +50,11 @@ module.exports = (sequelize, DataTypes) => {
             msg: "Password at least 6 characters",
           },
         },
+      },
+      name: DataTypes.STRING,
+      subscription: {
+        type: DataTypes.STRING,
+        defaultValue: "free",
       },
     },
     {
